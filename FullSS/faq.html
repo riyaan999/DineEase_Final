@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DineEase - FAQ</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .faq-container {
+            padding: 4rem 0;
+            min-height: calc(100vh - 120px);
+        }
+        .faq-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: #f8f9fa;
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand text-primary d-flex align-items-center" href="/">
+                <i class="fas fa-utensils me-2"></i>
+                DineEase
+            </a>
+        </div>
+    </nav>
+
+    <div class="faq-container">
+        <div class="container">
+            <div class="faq-content">
+                <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+                
+                <div class="accordion" id="faqAccordion">
+                    <!-- Reservation Questions -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How do I make a reservation?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                To make a reservation, simply log in to your DineEase account and select your preferred restaurant, date, time, and party size. Follow the prompts to complete your booking.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Can I modify or cancel my reservation?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, you can modify or cancel your reservation through your DineEase account up to 2 hours before your scheduled time without any penalty.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What is the maximum party size for reservations?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The maximum party size varies by restaurant. Most restaurants accommodate up to 10 guests per reservation. For larger groups, please contact the restaurant directly.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Management -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                How do I create a DineEase account?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Click on the "Register" link on the login page and fill out the required information including your name, email, and password.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                How can I reset my password?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Click on the "Forgot Password" link on the login page and follow the instructions sent to your registered email address.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant Information -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                How can I view restaurant menus?
+                            </button>
+                        </h2>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Each restaurant's profile page includes their current menu, prices, and special offerings.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                Are special dietary requirements accommodated?
+                            </button>
+                        </h2>
+                        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, you can specify dietary requirements during the reservation process. Restaurants will accommodate these requests to the best of their ability.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special Occasions -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                                Can I make special requests for celebrations?
+                            </button>
+                        </h2>
+                        <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, you can add special requests (like birthday celebrations) in the notes section when making your reservation.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9">
+                                Do restaurants offer private dining?
+                            </button>
+                        </h2>
+                        <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Many restaurants offer private dining options. Check the restaurant's profile or contact them directly for details.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment and Cancellation -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq10">
+                                Is there a cancellation fee?
+                            </button>
+                        </h2>
+                        <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Cancellation policies vary by restaurant. Most allow free cancellation up to 2 hours before the reservation time.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Questions -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq11">
+                                Can I make multiple reservations?
+                            </button>
+                        </h2>
+                        <div id="faq11" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, you can make multiple reservations using your DineEase account.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq12">
+                                How far in advance can I make a reservation?
+                            </button>
+                        </h2>
+                        <div id="faq12" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Most restaurants accept reservations up to 30 days in advance.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq13">
+                                What happens if I'm running late?
+                            </button>
+                        </h2>
+                        <div id="faq13" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Please contact the restaurant directly if you're running late. Most restaurants hold reservations for 15 minutes past the scheduled time.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq14">
+                                Can I request specific seating?
+                            </button>
+                        </h2>
+                        <div id="faq14" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, you can add seating preferences in the special requests section when making your reservation.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq15">
+                                Do I need to confirm my reservation?
+                            </button>
+                        </h2>
+                        <div id="faq15" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                No, once you receive the confirmation email, your reservation is confirmed. Some restaurants may send a reminder email.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq16">
+                                How do I update my contact information?
+                            </button>
+                        </h2>
+                        <div id="faq16" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can update your contact information in your profile settings after logging into your DineEase account.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq17">
+                                Can I make reservations for someone else?
+                            </button>
+                        </h2>
+                        <div id="faq17" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, you can make reservations on behalf of others. Just include their name in the reservation details.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq18">
+                                What if the time I want isn't available?
+                            </button>
+                        </h2>
+                        <div id="faq18" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The system will show you alternative available times closest to your preferred time slot.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq19">
+                                Are there rewards for frequent diners?
+                            </button>
+                        </h2>
+                        <div id="faq19" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, DineEase offers a loyalty program where you can earn points for each reservation that can be redeemed for dining rewards.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq20">
+                                How do I contact customer support?
+                            </button>
+                        </h2>
+                        <div id="faq20" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can reach our customer support team through the Contact Us section on our website or email support@dineease.com.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-white py-4 mt-auto">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <span class="text-muted">&copy; 2025 DineEase. All rights reserved.</span>
+                </div>
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <a href="/terms.html" class="text-muted text-decoration-none">Terms of Service</a>
+                    <span class="mx-2">|</span>
+                    <a href="/privacy.html" class="text-muted text-decoration-none">Privacy Policy</a>
+                    <span class="mx-2">|</span>
+                    <a href="/faq.html" class="text-muted text-decoration-none">FAQ</a>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <a href="#" class="text-muted me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-muted"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

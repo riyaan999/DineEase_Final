@@ -1,0 +1,90 @@
+:root {
+    --background-light: #f8f9fa;
+}
+
+body {
+    background-color: var(--background-light);
+}
+
+.navbar {
+    background-color: var(--background-light) !important;
+}
+
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.chat-message {
+    margin-bottom: 1rem;
+    max-width: 80%;
+}
+
+.chat-message.user {
+    margin-left: auto;
+    background-color: #1976d2;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.chat-message.bot {
+    margin-right: auto;
+    background-color: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.restaurant-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-card img {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.restaurant-card:hover img {
+    transform: scale(1.05);
+}
+
+.restaurant-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.restaurant-details.show {
+    max-height: 500px;
+}
+
+.cuisine-badge {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.dish-chip {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem;
+    display: inline-block;
+    background-color: #f0f0f0;
+    border-radius: 1rem;
+}
+
+.modal-dialog-end {
+    position: fixed;
+    margin: 0;
+    right: 1rem;
+    bottom: 5rem;
+    width: 300px;
+}

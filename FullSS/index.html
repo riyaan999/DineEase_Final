@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DineEase - Restaurant Reservations</title>
+    <script>
+        // Check authentication immediately before loading any content
+        if (!localStorage.getItem('isAuthenticated')) {
+            window.location.href = './login.html';
+        }
+    </script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./src/styles/main.css">
+    <link rel="stylesheet" href="./src/styles/chatbot.css">
+    <link rel="stylesheet" href="./src/styles/dark-theme.css">
+    <link rel="stylesheet" href="./src/styles/carousel.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand text-primary d-flex align-items-center" href="/">
+                <i class="fas fa-utensils me-2"></i>
+                DineEase
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./profile.html"><i class="fas fa-user me-1"></i> Profile</a>
+                    </li>
+                </ul>
+                <form class="d-flex" id="searchForm">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <div class="row" id="restaurantList">
+            <!-- Restaurant cards will be populated here -->
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./src/components/Chatbot/ChatbotWidget.js"></script>
+    <script type="module" src="./src/js/main.js"></script>
+    <script type="module" src="./src/js/imageCarousel.js"></script>
+    <script src="./src/js/theme.js"></script>
+    <script>
+        // Authentication check is now at the top of the page
+
+        // Check authentication
+        function checkAuth() {
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            if (!isAuthenticated) {
+                window.location.href = './login.html';
+            }
+            return isAuthenticated;
+        }
+
+        // Load and display restaurants
+        import('./src/data/restaurants.js')
+            .then(module => {
+                displayRestaurants(module.default || module.restaurants);
+            })
+            .catch(error => console.error('Error loading restaurants:', error));
+
+        // Display restaurants
+        function displayRestaurants(restaurants) {
+            document.getElementById('restaurantList').innerHTML = restaurants.map(restaurant => `
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm" data-restaurant-id="${restaurant.id}">
+                        <div class="position-relative">
+                            <img src="${restaurant.image}" class="card-img-top" alt="${restaurant.name}" 
+                                style="height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${restaurant.name}</h5>
+                            <p class="card-text text-muted mb-2">
+                                <i class="fas fa-map-marker-alt me-1"></i>${restaurant.location}
+                            </p>
+                            <span class="badge bg-primary mb-2">${restaurant.cuisine}</span>
+                            <p class="card-text small">
+                                <strong>Popular Dishes:</strong><br>
+                                ${restaurant.popularDishes.join(', ')}
+                            </p>
+                            <a href="./reservation.html?id=${restaurant.id}" class="btn btn-primary w-100">
+                                <i class="fas fa-calendar-alt me-2"></i>Make Reservation
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (checkAuth()) {
+                // Load and display restaurants
+                Promise.all([
+                    import('./src/data/restaurants.js'),
+                    import('./src/js/imageCarousel.js')
+                ]).then(([restaurantsModule, carouselModule]) => {
+                        const restaurants = restaurantsModule.restaurants;
+                        displayRestaurants(restaurants);
+                        
+                        // Initialize carousels for all restaurant cards
+                        document.querySelectorAll('.card[data-restaurant-id]').forEach(card => {
+                            const restaurantId = card.dataset.restaurantId;
+                            const restaurant = restaurants.find(r => r.id === parseInt(restaurantId));
+                            if (restaurant) {
+                                carouselModule.initializeCarousel(card, restaurant);
+                            }
+                        });
+                        
+                        // Add search functionality
+                        const searchForm = document.getElementById('searchForm');
+                        const searchInput = document.getElementById('searchInput');
+                        
+                        searchForm.addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const searchTerm = searchInput.value.toLowerCase().trim();
+                            
+                            const filteredRestaurants = restaurants.filter(restaurant => {
+                                return restaurant.name.toLowerCase().includes(searchTerm) ||
+                                    restaurant.location.toLowerCase().includes(searchTerm) ||
+                                    restaurant.cuisine.toLowerCase().includes(searchTerm) ||
+                                    restaurant.popularDishes.some(dish => 
+                                        dish.toLowerCase().includes(searchTerm)
+                                    );
+                            });
+                            
+                            displayRestaurants(filteredRestaurants);
+                        });
+                        
+                        // Add real-time search
+                        searchInput.addEventListener('input', () => {
+                            const searchTerm = searchInput.value.toLowerCase().trim();
+                            if (searchTerm === '') {
+                                displayRestaurants(restaurants); // Show all restaurants when search is empty
+                                return;
+                            }
+                            
+                            const filteredRestaurants = restaurants.filter(restaurant => {
+                                return restaurant.name.toLowerCase().includes(searchTerm) ||
+                                    restaurant.location.toLowerCase().includes(searchTerm) ||
+                                    restaurant.cuisine.toLowerCase().includes(searchTerm) ||
+                                    restaurant.popularDishes.some(dish => 
+                                        dish.toLowerCase().includes(searchTerm)
+                                    );
+                            });
+                            
+                            displayRestaurants(filteredRestaurants);
+                        });
+                    })
+                    .catch(error => console.error('Error loading restaurants:', error));
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer py-4 mt-auto" style="position: fixed; bottom: 0; width: 100%; z-index: 3; background-color: var(--background-dark);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <span style="color: var(--text-primary);">&copy; 2025 DineEase. All rights reserved.</span>
+                </div>
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <a href="/terms.html" style="color: var(--text-primary);" class="text-decoration-none">Terms of Service</a>
+                    <span class="mx-2" style="color: var(--text-primary);">|</span>
+                    <a href="/privacy.html" style="color: var(--text-primary);" class="text-decoration-none">Privacy Policy</a>
+                    <span class="mx-2" style="color: var(--text-primary);">|</span>
+                    <a href="/faq.html" style="color: var(--text-primary);" class="text-decoration-none">FAQ</a>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <a href="#" style="color: var(--text-primary);" class="me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" style="color: var(--text-primary);" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="color: var(--text-primary);" class="me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="color: var(--text-primary);"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

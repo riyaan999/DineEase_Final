@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DineEase - Make Reservation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="/src/styles/dark-theme.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand text-primary d-flex align-items-center" href="/">
+                <i class="fas fa-utensils me-2"></i>
+                DineEase
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button class="btn btn-outline-secondary ms-2" id="themeToggle">
+                <i class="fas fa-moon me-1"></i> Dark Mode
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile.html"><i class="fas fa-user me-1"></i> Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h4 class="card-title text-center mb-4">Make a Reservation</h4>
+                        <div id="restaurantInfo" class="mb-4">
+                            <!-- Restaurant info will be populated here -->
+                        </div>
+                        <form id="reservationForm">
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="time" class="form-label">Time</label>
+                                <input type="time" class="form-control" id="time" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="guests" class="form-label">Number of Guests</label>
+                                <select class="form-select" id="guests" required>
+                                    <option value="">Select number of guests</option>
+                                    <option value="1">1 Guest</option>
+                                    <option value="2">2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5 Guests</option>
+                                    <option value="6">6 Guests</option>
+                                    <option value="7">7 Guests</option>
+                                    <option value="8">8 Guests</option>
+                                    <option value="9">9 Guests</option>
+                                    <option value="10">10 Guests</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="specialRequests" class="form-label">Special Requests</label>
+                                <textarea class="form-control" id="specialRequests" rows="3" placeholder="Any special requests or preferences?"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-check me-2"></i>Confirm Reservation
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/src/js/theme.js"></script>
+    <script type="module">
+        // Import restaurant data
+        import { restaurants } from './src/data/restaurants.js';
+
+        // Check authentication
+        function checkAuth() {
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            if (!isAuthenticated) {
+                window.location.href = '/login.html';
+            }
+            return isAuthenticated;
+        }
+
+        // Get restaurant ID from URL
+        function getRestaurantId() {
+            const params = new URLSearchParams(window.location.search);
+            return parseInt(params.get('id'));
+        }
+
+        // Display restaurant information
+        function displayRestaurantInfo() {
+            const restaurantId = getRestaurantId();
+            const restaurant = restaurants.find(r => r.id === restaurantId);
+
+            if (restaurant) {
+                document.getElementById('restaurantInfo').innerHTML = `
+                    <div class="text-center">
+                        <img src="${restaurant.image}" alt="${restaurant.name}" 
+                            class="img-fluid rounded mb-3" style="max-height: 200px; object-fit: cover;">
+                        <h5>${restaurant.name}</h5>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-map-marker-alt me-1"></i>${restaurant.location}
+                        </p>
+                        <span class="badge bg-primary mt-2">${restaurant.cuisine}</span>
+                    </div>
+                `;
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('reservationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const restaurantId = getRestaurantId();
+            const restaurant = restaurants.find(r => r.id === restaurantId);
+            
+            if (!restaurant) return;
+
+            const formData = {
+                restaurantId,
+                restaurantName: restaurant.name,
+                location: restaurant.location,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                guests: parseInt(document.getElementById('guests').value),
+                specialRequests: document.getElementById('specialRequests').value,
+                status: 'Confirmed',
+                id: Date.now().toString()
+            };
+
+            // Save reservation
+            const userEmail = localStorage.getItem('userEmail');
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(u => u.email === userEmail);
+
+            if (userIndex !== -1) {
+                users[userIndex].reservations.push(formData);
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Reservation confirmed!');
+                window.location.href = '/profile.html';
+            }
+        });
+
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', () => {
+            if (checkAuth()) {
+                displayRestaurantInfo();
+                
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('date').min = today;
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer py-4 mt-auto" style="position: fixed; bottom: 0; width: 100%; z-index: 3; background-color: var(--background-dark);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <span class="text-muted">&copy; 2025 DineEase. All rights reserved.</span>
+                </div>
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <a href="#" class="text-muted text-decoration-none">Terms of Service</a>
+                    <span class="mx-2 text-muted">|</span>
+                    <a href="#" class="text-muted text-decoration-none">Privacy Policy</a>
+                    <span class="mx-2 text-muted">|</span>
+                    <a href="/faq.html" class="text-muted text-decoration-none">FAQ</a>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <a href="#" class="text-muted me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-muted"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
